@@ -31,6 +31,41 @@ Then run it:
 - [rclone](https://rclone.org/) installed and configured with at least 2 remotes
 - Bash 4.0 or later
 
+### Installing rclone
+
+**Linux / macOS / Windows (WSL):**
+```bash
+sudo -v ; curl https://rclone.org/install.sh | sudo bash
+```
+
+**Windows (native):**
+```powershell
+# Via Scoop
+scoop install rclone
+
+# Or via Chocolatey
+choco install rclone
+
+# Or download from: https://rclone.org/downloads/
+```
+
+## Compatibility
+
+| Operating System | x86_64 | ARM64 | Notes |
+|------------------|--------|-------|-------|
+| Linux            | ✅     | ✅    | Native support |
+| macOS            | ✅     | ✅    | Requires Bash 4+ (`brew install bash`) |
+| Windows (WSL)    | ✅     | ✅    | Via Windows Subsystem for Linux |
+
+## Platform Notes
+
+**macOS:** Ships with Bash 3.2, but this script requires Bash 4+ for `mapfile`. Install with `brew install bash` and run:
+```bash
+$(brew --prefix)/bin/bash migrate-rclone.sh
+```
+
+**Windows:** Use [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install). Windows files are accessible via `/mnt/c/`.
+
 ## Usage
 
 ```bash

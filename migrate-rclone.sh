@@ -92,7 +92,10 @@ print_header
 # Check if rclone is installed
 if ! command -v rclone &> /dev/null; then
     echo -e "${RED}❌ Error: rclone is not installed.${NC}"
-    echo "   Install with: curl https://rclone.org/install.sh | sudo bash"
+    echo ""
+    echo "   Install rclone:"
+    echo "   • Linux/macOS/WSL: sudo -v ; curl https://rclone.org/install.sh | sudo bash"
+    echo "   • Other platforms:     https://rclone.org/downloads/"
     exit 1
 fi
 
