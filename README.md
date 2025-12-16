@@ -123,7 +123,7 @@ Enter destination remote number (1-3): 1
 ║  📤 Source:      yandex                                      ║
 ║  📥 Destination: gdrive                                      ║
 ║  📁 Folders:     13                                          ║
-║  📄 Log:         /home/user/rclone-logs/migration-20251216.log║
+║  📄 Log:         /home/user/migrate-rclone-logs/migration-20251216.log║
 ╚══════════════════════════════════════════════════════════════╝
 
 Do you want to continue? (y/N): y
@@ -158,10 +158,10 @@ RETRIES_SLEEP="10s"  # Wait time between retries
 
 ## Logs
 
-Logs are stored in `~/rclone-logs/`:
+Logs are stored in `~/migrate-rclone-logs/`:
 
 ```
-~/rclone-logs/
+~/migrate-rclone-logs/
 ├── migration-20251216-103000.log      # Copy operation log
 ├── verification-20251216-103000.log   # Integrity verification log
 └── ...

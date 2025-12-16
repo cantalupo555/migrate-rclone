@@ -29,7 +29,7 @@ BOLD='\033[1m'
 # ==================== CONFIGURATION ====================
 
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-LOG_DIR="$HOME/rclone-logs"
+LOG_DIR="$HOME/migrate-rclone-logs"
 LOG_FILE="$LOG_DIR/migration-$TIMESTAMP.log"
 CHECK_LOG="$LOG_DIR/verification-$TIMESTAMP.log"
 TRANSFERS=5
