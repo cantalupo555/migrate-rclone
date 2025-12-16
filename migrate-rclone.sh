@@ -32,7 +32,7 @@ TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 LOG_DIR="$HOME/rclone-logs"
 LOG_FILE="$LOG_DIR/migration-$TIMESTAMP.log"
 CHECK_LOG="$LOG_DIR/verification-$TIMESTAMP.log"
-TRANSFERS=4
+TRANSFERS=5
 CHECKERS=8
 RETRIES=3
 RETRIES_SLEEP="10s"
@@ -192,6 +192,27 @@ while true; do
         echo -e "${RED}Invalid number. Please try again.${NC}"
     fi
 done
+
+echo ""
+print_separator
+
+# ==================== TRANSFER SETTINGS ====================
+
+echo ""
+echo -e "${BOLD}⚙️  TRANSFER SETTINGS:${NC}"
+echo ""
+read -rp "Simultaneous transfers (default: $TRANSFERS): " custom_transfers
+
+if [[ -n "$custom_transfers" ]]; then
+    if [[ "$custom_transfers" =~ ^[0-9]+$ ]] && [ "$custom_transfers" -ge 1 ] && [ "$custom_transfers" -le 32 ]; then
+        TRANSFERS="$custom_transfers"
+        echo -e "${GREEN}✓ Transfers set to: ${BOLD}$TRANSFERS${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Invalid value. Using default: $TRANSFERS${NC}"
+    fi
+else
+    echo -e "${GREEN}✓ Using default: ${BOLD}$TRANSFERS${NC}"
+fi
 
 echo ""
 print_separator
