@@ -1,6 +1,19 @@
-# Rclone Migration Tool
+# migrate-rclone
 
 A generic command-line tool for migrating data between any cloud storage services configured in rclone.
+
+First, get the script and make it executable:
+
+```bash
+wget https://raw.githubusercontent.com/cantalupo555/migrate-rclone/master/migrate-rclone.sh
+chmod +x migrate-rclone.sh
+```
+
+Then run it:
+
+```bash
+./migrate-rclone.sh
+```
 
 ## Features
 
@@ -17,17 +30,6 @@ A generic command-line tool for migrating data between any cloud storage service
 
 - [rclone](https://rclone.org/) installed and configured with at least 2 remotes
 - Bash 4.0 or later
-
-## Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/cantalupo555/migrate-rclone.git
-cd migrate-rclone
-
-# Make the script executable
-chmod +x migrate-rclone.sh
-```
 
 ## Usage
 
@@ -48,7 +50,7 @@ chmod +x migrate-rclone.sh
 ./migrate-rclone.sh --help
 ```
 
-## Example
+## Screenshot
 
 ```
 ╔══════════════════════════════════════════════════════════════╗
@@ -144,14 +146,14 @@ This tool works with any cloud storage service supported by rclone, including:
 - SFTP/FTP
 - And [many more](https://rclone.org/overview/)
 
+## Feedback
+
+Any suggestions are welcome: [Click here](https://github.com/cantalupo555/migrate-rclone/issues/new)
+
+## A problem?
+
+Please fill a report [here](https://github.com/cantalupo555/migrate-rclone/issues/new)
+
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Author
-
-[cantalupo555](https://github.com/cantalupo555)
