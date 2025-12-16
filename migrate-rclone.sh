@@ -232,7 +232,7 @@ if [ ${#all_folders[@]} -eq 0 ]; then
 fi
 
 # Filter excluded folders
-folders=()
+available_folders=()
 for folder in "${all_folders[@]}"; do
     excluded=false
     for exc in "${EXCLUDE[@]}"; do
@@ -242,13 +242,64 @@ for folder in "${all_folders[@]}"; do
         fi
     done
     if [[ "$excluded" == false ]]; then
-        folders+=("$folder")
+        available_folders+=("$folder")
     fi
 done
 
+echo -e "${GREEN}✓ Found ${#available_folders[@]} folders available${NC}"
+echo ""
+
+# ==================== FOLDER SELECTION ====================
+
+echo -e "${BOLD}📁 FOLDER SELECTION:${NC}"
+echo ""
+
+# Show numbered list of folders
+for i in "${!available_folders[@]}"; do
+    echo -e "  ${BOLD}$((i+1)).${NC} ${available_folders[$i]}"
+done
+echo ""
+
+read -rp "Migrate all folders? (Y/n): " migrate_all
+
+folders=()
+
+if [[ "$migrate_all" =~ ^[nN]$ ]]; then
+    echo ""
+    echo -e "${YELLOW}Enter folder numbers to migrate (space or comma separated)${NC}"
+    echo -e "${YELLOW}Example: 1 3 5 or 1,3,5${NC}"
+    echo ""
+    read -rp "Folders to migrate: " folder_selection
+    
+    # Parse selection (handle both space and comma separated)
+    folder_selection="${folder_selection//,/ }"
+    read -ra selected_nums <<< "$folder_selection"
+    
+    for num in "${selected_nums[@]}"; do
+        if [[ "$num" =~ ^[0-9]+$ ]] && [ "$num" -ge 1 ] && [ "$num" -le "${#available_folders[@]}" ]; then
+            folders+=("${available_folders[$((num-1))]}")
+        else
+            echo -e "${YELLOW}⚠️  Ignoring invalid selection: $num${NC}"
+        fi
+    done
+    
+    if [ ${#folders[@]} -eq 0 ]; then
+        echo -e "${RED}❌ No valid folders selected.${NC}"
+        exit 1
+    fi
+    
+    echo ""
+    echo -e "${GREEN}✓ Selected ${#folders[@]} folders to migrate${NC}"
+else
+    folders=("${available_folders[@]}")
+    echo -e "${GREEN}✓ All ${#folders[@]} folders will be migrated${NC}"
+fi
+
+echo ""
+print_separator
+
 # ==================== CONFIRMATION ====================
 
-echo -e "${GREEN}✓ Found ${#folders[@]} folders to migrate${NC}"
 echo ""
 
 if [[ -n "$DRY_RUN" ]]; then
