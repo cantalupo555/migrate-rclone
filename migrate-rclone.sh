@@ -263,10 +263,10 @@ echo ""
 echo -e "${BOLD}╔══════════════════════════════════════════════════════════════╗${NC}"
 echo -e "${BOLD}║                    MIGRATION SUMMARY                         ║${NC}"
 echo -e "${BOLD}╠══════════════════════════════════════════════════════════════╣${NC}"
-echo -e "${BOLD}║${NC}  📤 Source:      ${CYAN}$SOURCE${NC}"
-echo -e "${BOLD}║${NC}  📥 Destination: ${CYAN}$DESTINATION${NC}"
-echo -e "${BOLD}║${NC}  📁 Folders:     ${#folders[@]}"
-echo -e "${BOLD}║${NC}  📄 Log:         $LOG_FILE"
+echo -e "${BOLD}║${NC}  📤 Source:      ${CYAN}$SOURCE${NC}                                      ${BOLD}║${NC}"
+echo -e "${BOLD}║${NC}  📥 Destination: ${CYAN}$DESTINATION${NC}                                      ${BOLD}║${NC}"
+echo -e "${BOLD}║${NC}  📁 Folders:     ${#folders[@]}                                           ${BOLD}║${NC}"
+echo -e "${BOLD}║${NC}  📄 Log:         (see below)                                 ${BOLD}║${NC}"
 echo -e "${BOLD}╚══════════════════════════════════════════════════════════════╝${NC}"
 echo ""
 
@@ -302,7 +302,7 @@ echo -e "${BOLD}🚀 Starting migration: $SOURCE → $DESTINATION${NC}"
 echo ""
 
 for folder in "${folders[@]}"; do
-    ((current++))
+    ((current++)) || true
     echo -e "${BOLD}[$current/$total]${NC} 📁 Folder: ${CYAN}$folder${NC}"
     print_separator
     
@@ -322,7 +322,7 @@ for folder in "${folders[@]}"; do
     
     if [ $copy_status -eq 0 ]; then
         echo -e "  ${GREEN}✓ Copy completed!${NC}"
-        ((copy_success++))
+        ((copy_success++)) || true
         
         # Step 2: Integrity Verification
         if [[ -z "$DRY_RUN" ]] && [[ -z "$SKIP_CHECK" ]]; then
@@ -337,16 +337,16 @@ for folder in "${folders[@]}"; do
             
             if [ $check_status -eq 0 ]; then
                 echo -e "  ${GREEN}✓ Integrity OK!${NC}"
-                ((check_success++))
+                ((check_success++)) || true
             else
                 echo -e "  ${YELLOW}⚠️  Differences found (check $CHECK_LOG)${NC}"
-                ((check_error++))
+                ((check_error++)) || true
                 folders_with_errors+=("$folder (verification)")
             fi
         fi
     else
         echo -e "  ${RED}✗ Copy error (check $LOG_FILE)${NC}"
-        ((copy_error++))
+        ((copy_error++)) || true
         folders_with_errors+=("$folder (copy)")
     fi
     echo ""
