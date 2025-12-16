@@ -217,6 +217,52 @@ fi
 echo ""
 print_separator
 
+# ==================== PERFORMANCE MODE ====================
+
+echo ""
+echo -e "${BOLD}⚡ PERFORMANCE MODE:${NC}"
+echo ""
+echo -e "  ${BOLD}1.${NC} Standard ${CYAN}(default)${NC}"
+echo -e "     Buffer: 16M | Checkers: 8"
+echo ""
+echo -e "  ${BOLD}2.${NC} Fast"
+echo -e "     Buffer: 64M | Checkers: 16 | Fast-list"
+echo ""
+echo -e "  ${BOLD}3.${NC} Maximum"
+echo -e "     Buffer: 128M | Checkers: 32 | Fast-list | Large chunks"
+echo ""
+
+read -rp "Select mode (1-3, default: 1): " perf_mode
+
+# Default values
+BUFFER_SIZE="16M"
+CHECKERS=8
+DRIVE_CHUNK_SIZE="8M"
+EXTRA_FLAGS=""
+
+case "$perf_mode" in
+    2)
+        BUFFER_SIZE="64M"
+        CHECKERS=16
+        DRIVE_CHUNK_SIZE="64M"
+        EXTRA_FLAGS="--fast-list"
+        echo -e "${GREEN}✓ Fast mode selected${NC}"
+        ;;
+    3)
+        BUFFER_SIZE="128M"
+        CHECKERS=32
+        DRIVE_CHUNK_SIZE="128M"
+        EXTRA_FLAGS="--fast-list"
+        echo -e "${GREEN}✓ Maximum mode selected${NC}"
+        ;;
+    *)
+        echo -e "${GREEN}✓ Standard mode selected${NC}"
+        ;;
+esac
+
+echo ""
+print_separator
+
 # ==================== DISCOVER FOLDERS ====================
 
 echo ""
@@ -362,12 +408,15 @@ for folder in "${folders[@]}"; do
     rclone copy "$SOURCE:$folder" "$DESTINATION:$folder" \
         --progress \
         --transfers "$TRANSFERS" \
+        --checkers "$CHECKERS" \
+        --buffer-size "$BUFFER_SIZE" \
+        --drive-chunk-size "$DRIVE_CHUNK_SIZE" \
         --retries "$RETRIES" \
         --retries-sleep "$RETRIES_SLEEP" \
         --low-level-retries 10 \
         --log-file "$LOG_FILE" \
         --log-level INFO \
-        $DRY_RUN || true
+        $EXTRA_FLAGS $DRY_RUN || true
     
     copy_status=$?
     
